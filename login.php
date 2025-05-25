@@ -7,6 +7,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+
 // Get the form input
 $email = $_POST['email'];
 $password = $_POST['password'];
