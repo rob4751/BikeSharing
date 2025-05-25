@@ -124,24 +124,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body class="bg-gradient-dark min-h-screen">
-    <?php if (isset($_GET['registered'])): ?>
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const msg = document.createElement('div');
-        msg.innerHTML = `
-            <div style="position:fixed;top:30px;left:50%;transform:translateX(-50%);
-            background:#22c55e;color:white;padding:10px 20px;border-radius:8px;
-            box-shadow:0 2px 10px rgba(0,0,0,0.2);font-family:sans-serif;font-weight:600;
-            display:flex;align-items:center;gap:10px;z-index:9999;">
-                <i class='fa-solid fa-check'></i> Utente registrato con successo!
-            </div>
-        `;
-        document.body.appendChild(msg);
-        setTimeout(() => msg.remove(), 2500);
-    });
-    </script>
-    <?php endif; ?>
-
     <div id="signup-page" class="flex items-center justify-center min-h-screen px-4 py-12">
         <div id="signup-card" class="w-full max-w-md bg-dark-bg-2 rounded-xl shadow-custom p-8 card-animation">
             <div id="logo" class="flex justify-center mb-6">
