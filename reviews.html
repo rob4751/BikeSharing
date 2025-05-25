@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bike Sharing</title>
+
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                            DEFAULT: '#3b82f6',
+                            focus: '#2563eb',
+                            content: '#ffffff',
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+
+    <style>
+        :root {
+            --color-primary: #3b82f6;
+        }
+
+        * {
+            font-family: "Inter", sans-serif;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="h-full text-base-content bg-gray-900">
+
+    <!-- Review Section with Glow -->
+    <div class="relative h-screen w-full flex items-center justify-center px-4">
+        <!-- Glowing Border Background -->
+        <div
+            class="absolute z-0 w-full max-w-md rounded-xl p-px bg-gradient-to-br from-blue-500/40 via-blue-600/40 to-blue-800/30 blur-sm">
+        </div>
+
+        <!-- Review Box -->
+        <div class="relative z-10 bg-gray-800 text-white rounded-xl p-6 w-full max-w-md shadow-xl space-y-4">
+            <h2 class="text-xl font-semibold text-primary-400 text-center">Leave a Review</h2>
+
+            <textarea id="reviewText" rows="4" placeholder="Write your review..."
+                class="w-full bg-gray-700 text-white border border-gray-600 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-primary-500 resize-none"></textarea>
+
+            <div id="stars" class="flex justify-center gap-1"></div>
+
+            <button onclick="submitReview()"
+                class="w-full bg-primary-500 hover:bg-primary-600 transition-colors text-white py-2 rounded-md font-medium">
+                Submit
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="reviewModal"
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+        <div
+            class="bg-gray-800 text-white rounded-lg p-6 max-w-sm w-full shadow-xl space-y-4 border border-primary-500">
+            <h3 class="text-lg font-semibold text-center text-primary-400">Perfect!</h3>
+            <p class="text-center">Your review will be considered.</p>
+            <button onclick="closeModal()"
+                class="block mx-auto px-6 py-2 rounded-md bg-primary-500 hover:bg-primary-600 transition text-white font-medium">
+                OK
+            </button>
+        </div>
+    </div>
+
+    <!-- Star and Submit Script -->
+    <script>
+        const starsContainer = document.getElementById("stars");
+        const confirmationModal = document.getElementById("reviewModal");
+        let selectedRating = 0;
+
+        function renderStars(rating) {
+            starsContainer.innerHTML = "";
+
+            for (let i = 1; i <= 5; i++) {
+                const full = rating >= i;
+                const half = rating >= i - 0.5 && rating < i;
+
+                const star = document.createElement("i");
+                star.classList.add("fa-solid", "text-2xl", "transition-colors", "duration-200", "hover:scale-110");
+
+                if (full) {
+                    star.classList.add("fa-star", "text-white");
+                } else if (half) {
+                    star.classList.add("fa-star-half-stroke", "text-white");
+                } else {
+                    star.classList.add("fa-star", "text-gray-500");
+                }
+
+                const starWrapper = document.createElement("div");
+                starWrapper.classList.add("relative", "w-6", "h-6", "cursor-pointer");
+                starWrapper.appendChild(star);
+
+                const left = document.createElement("div");
+                left.classList.add("absolute", "top-0", "left-0", "w-1/2", "h-full");
+                left.dataset.value = i - 0.5;
+                left.onclick = handleStarClick;
+
+                const right = document.createElement("div");
+                right.classList.add("absolute", "top-0", "right-0", "w-1/2", "h-full");
+                right.dataset.value = i;
+                right.onclick = handleStarClick;
+
+                starWrapper.appendChild(left);
+                starWrapper.appendChild(right);
+                starsContainer.appendChild(starWrapper);
+            }
+        }
+
+        function handleStarClick(e) {
+            selectedRating = parseFloat(e.currentTarget.dataset.value);
+            renderStars(selectedRating);
+        }
+
+        function submitReview() {
+            const review = document.getElementById("reviewText").value.trim();
+            if (!review || selectedRating === 0) {
+                alert("Please write a review and select a star rating.");
+                return;
+            }
+            confirmationModal.classList.remove("hidden");
+        }
+
+        function closeModal() {
+            confirmationModal.classList.add("hidden");
+            window.location.href = "index.php";
+        }
+
+        renderStars(0);
+    </script>
+</body>
+
+</html>
